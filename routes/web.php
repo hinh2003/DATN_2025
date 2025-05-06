@@ -104,4 +104,6 @@ Route::get('/profile',[UserController::class,'index'])->name('profile');
 Route::post('/movies/{movie}/comments', [CommentController::class, 'store'])->name('comments.store');
 Route::get('/movies/{movie}/comments/list', [CommentController::class, 'list']);
 
-
+//comment
+Route::post('/movies/{movie}/comments/update', [CommentController::class, 'update'])->name('comments.update');
+Route::get('/movies/{movie}/comments/delete', [CommentController::class, 'delete'])->name('comments.delete');

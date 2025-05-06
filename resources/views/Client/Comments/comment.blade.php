@@ -5,7 +5,7 @@
         <form id="commentForm">
             @csrf
             <textarea name="content" id="commentContent" class="form-control" placeholder="Nhập bình luận..." required></textarea>
-            <button type="submit" class="btn btn-success mt-2">Gửi</button>
+            <button type="submit" class="btn btn-success mt-2  ">Gửi</button>
         </form>
     @else
         <p><a href="{{ route('login') }}">Đăng nhập</a> để bình luận.</p>
@@ -29,7 +29,7 @@
                     @if(Auth::check() && Auth::id() == $comment->user_id)
                         <div class="comment-actions">
                             <button class="btn btn-primary btn-sm edit-comment" data-comment-id="{{ $comment->id }}">Chỉnh sửa</button>
-                            <button class="btn btn-danger btn-sm delete-comment" data-comment-id="{{ $comment->id }}">Xóa</button>
+                            <button class="btn btn-danger btn-sm delete-comment" data-comment-id="{{ $comment->id }}" >Xóa</button>
                         </div>
                     @endif
                 </div>

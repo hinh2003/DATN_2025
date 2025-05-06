@@ -15,7 +15,7 @@ class MovieControlleer extends Controller
             ->where('slug', $identifier)
             ->orWhere('id', $identifier)
             ->firstOrFail();
-        $comments = $movie->comments()->with('user')->latest()->paginate(5);
+        $comments = $movie->comments()->with('user')->where("status",1)->latest()->paginate(5);
         return view('Client.Movies.index', compact('movie','comments'));
     }
 
