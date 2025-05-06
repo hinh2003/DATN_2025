@@ -42,17 +42,13 @@ class ChapMoviesController extends Controller
         $uploadServer = new UploadVideo();
         $response = $uploadServer->upload($filePath);
         $response_aws = $uploadServer->uploadVideoAWS($videoFile);
-        if (isset($response['urlIframe'])) {
             Chap_movies::create([
                 'movie_id' => $request->movie_id,
                 'link_chap' => $response['urlIframe'],
                 'aws_link' => $response_aws['url'],
                 'name_chap' => request()->chapter,
             ]);
-
             return back()->with('success', 'Phim đã được tải lên !');
-        }
-        return back()->with('error', 'Lỗi khi tải lên Hydrax.');
     }
     public function updateChapMovie($id){
         $chap_movie = Chap_movies::where('movie_id', $id)->with('movie')->orderBy('name_chap', 'asc')->get();

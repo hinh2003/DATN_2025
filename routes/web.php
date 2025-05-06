@@ -104,15 +104,4 @@ Route::get('/profile',[UserController::class,'index'])->name('profile');
 Route::post('/movies/{movie}/comments', [CommentController::class, 'store'])->name('comments.store');
 Route::get('/movies/{movie}/comments/list', [CommentController::class, 'list']);
 
-Route::get('/test', function () {
-    $comment = Comment::create([
-        'content' => 'Hiohihihi',
-        'user_id' => 1,
-        'movie_id' => 4,
-    ]);
-
-    broadcast(new CommentPost($comment));
-
-    return "this is comment";
-});
 

@@ -10,86 +10,36 @@
     @else
         <p><a href="{{ route('login') }}">Đăng nhập</a> để bình luận.</p>
     @endif
-
     <div id="commentsList" data-movie-id="{{ $movie->id }}">
         @if($comments->count() > 0)
             @foreach($comments as $comment)
-                <div class="comment">
-                    <strong>{{ $comment->user->name }}</strong> - {{ $comment->created_at->diffForHumans() }}
-                    <p>{{ $comment->content }}</p>
+                <div class="comment-card">
+                    <div class="comment-header">
+                        <div class="avatar">
+                            {{ strtoupper(substr($comment->user->name, 0, 2)) }}
+                        </div>
+                        <div class="comment-info">
+                            <span class="username">{{ $comment->user->name }}</span>
+                            <span class="timestamp">{{ $comment->created_at->diffForHumans() }}</span>
+                        </div>
+                    </div>
+                    <div class="comment-content">
+                        {{ $comment->content }}
+                    </div>
+                    @if(Auth::check() && Auth::id() == $comment->user_id)
+                        <div class="comment-actions">
+                            <button class="btn btn-primary btn-sm edit-comment" data-comment-id="{{ $comment->id }}">Chỉnh sửa</button>
+                            <button class="btn btn-danger btn-sm delete-comment" data-comment-id="{{ $comment->id }}">Xóa</button>
+                        </div>
+                    @endif
                 </div>
             @endforeach
         @else
             <p>Chưa có bình luận nào.</p>
         @endif
     </div>
+
+    <div class="mt-4 d-flex justify-content-center">
+        {{ $comments->links() }}
+    </div>
 </div>
-@vite(['resources/css/app.css', 'resources/js/app.js'])
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        console.log("Listening to 'comment' channel...");
-
-        Echo.channel('comment')
-            .listen('.CommentPost', (event) => {
-                console.log('Received event:', event);
-            })
-            .error((error) => {
-                console.error('Echo error:', error);
-            });
-    });
-
-
-    {{--$(document).ready(function() {--}}
-    {{--    $('#commentForm').submit(function(e) {--}}
-    {{--        e.preventDefault();--}}
-
-    {{--        let content = $('#commentContent').val();--}}
-    {{--        let movieId = $('#commentsList').data('movie-id');--}}
-
-    {{--        $.ajax({--}}
-    {{--            url: "/movies/" + movieId + "/comments",--}}
-    {{--            type: "POST",--}}
-    {{--            data: {--}}
-    {{--                _token: "{{ csrf_token() }}",--}}
-    {{--                content: content--}}
-    {{--            },--}}
-    {{--            success: function(response) {--}}
-    {{--                if(response.success) {--}}
-    {{--                    $('#commentContent').val('');--}}
-    {{--                    loadComments();--}}
-    {{--                }--}}
-    {{--            },--}}
-    {{--            error: function(xhr) {--}}
-    {{--                console.log(xhr.responseText);--}}
-    {{--            }--}}
-    {{--        });--}}
-    {{--    });--}}
-
-    {{--    function loadComments() {--}}
-    {{--        let movieId = "{{ $movie->id }}";--}}
-
-    {{--        $.ajax({--}}
-    {{--            url: "/movies/" + movieId + "/comments/list",--}}
-    {{--            type: "GET",--}}
-    {{--            success: function(response) {--}}
-    {{--                if (response.success) {--}}
-    {{--                    let commentsHtml = "";--}}
-    {{--                    response.comments.forEach(comment => {--}}
-    {{--                        commentsHtml += `--}}
-    {{--                    <div class="comment">--}}
-    {{--                        <strong>${comment.user}</strong> - ${comment.created_at}--}}
-    {{--                        <p>${comment.content}</p>--}}
-    {{--                    </div>--}}
-    {{--                `;--}}
-    {{--                    });--}}
-    {{--                    $('#commentsList').html(commentsHtml);--}}
-    {{--                }--}}
-    {{--            },--}}
-    {{--            error: function(xhr) {--}}
-    {{--                console.log(xhr.responseText);--}}
-    {{--            }--}}
-    {{--        });--}}
-    {{--    }--}}
-    {{--});--}}
-
-</script>

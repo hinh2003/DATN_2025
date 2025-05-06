@@ -19,7 +19,6 @@ class ChapMovieController extends Controller
         }
 
         $default_chapter = $chapters->first();
-
         return view('Client.Chap_moive.index', compact('movie', 'chapters', 'default_chapter'));
     }
 
@@ -29,11 +28,14 @@ class ChapMovieController extends Controller
 
         if ($chapters->isEmpty()) {
             $default_chapter = null;
-            return view('Client.Chap_moive.index', compact('movie', 'chapters', 'default_chapter'))->with('message', 'Bộ phim chưa có tập nào.');
+            return view('Client.Chap_moive.index', compact('movie', 'chapters', 'default_chapter'))
+                ->with('message', 'Bộ phim chưa có tập nào.');
         }
 
         $default_chapter = $chapters->first();
+        $selected_chapter = Chap_movies::find($chapter);
 
-        return view('Client.Chap_moive.index', compact('movie', 'chapters', 'default_chapter'));
+        return view('Client.Chap_moive.videoMovies', compact('movie', 'chapters', 'default_chapter', 'selected_chapter'));
     }
+
 }
