@@ -60,9 +60,6 @@
 
 </section>
 
-
-
-
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const searchInput = document.getElementById('searchInput');

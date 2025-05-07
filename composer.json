@@ -8,6 +8,7 @@
         "php": "^8.2",
         "ext-curl": "*",
         "ext-fileinfo": "*",
+        "aws/aws-sdk-php": "^3.343",
         "laravel/framework": "^11.9",
         "laravel/reverb": "^1.4",
         "laravel/sanctum": "^4.0",

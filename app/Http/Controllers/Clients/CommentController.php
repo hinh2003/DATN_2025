@@ -48,6 +48,19 @@ class CommentController extends Controller
             })
         ]);
     }
+    public function hide($id)
+    {
+        $comment = Comment::find($id);
+
+        if ($comment) {
+            $comment->status = 0;
+            $comment->save();
+
+            return response()->json(['message' => 'Bình luận đã được ẩn thành công.']);
+        } else {
+            return response()->json(['message' => 'Không tìm thấy bình luận.'], 404);
+        }
+    }
 
 
 }

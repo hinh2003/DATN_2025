@@ -6,7 +6,6 @@
         <button onclick="switchServer('link_chap')" class="btn btn-primary">Server Chính</button>
         <button onclick="switchServer('link_aws')" class="btn btn-secondary">Server Dự Phòng</button>
     </div>
-
     <div class="d-flex justify-content-center">
         <div class="w-75">
             <iframe id="videoPlayer" width="100%" height="500px"

@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Models\Banner;
 use App\Models\Status;
 use Carbon\Carbon;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
@@ -47,5 +48,7 @@ class AppServiceProvider extends ServiceProvider
             $view->with(compact('banners'));
 
         });
+        Paginator::useBootstrapFive(); // Hoặc Paginator::useBootstrapFive(); nếu dùng Bootstrap 5
+
     }
 }
