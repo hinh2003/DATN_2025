@@ -13,7 +13,7 @@
     <div id="commentsList" data-movie-id="{{ $movie->id }}">
         @if($comments->count() > 0)
             @foreach($comments as $comment)
-                <div class="comment-card">
+                <div class="comment-card" id="comment-{{ $comment->id }}">
                     <div class="comment-header">
                         <div class="avatar">
                             {{ strtoupper(substr($comment->user->name, 0, 2)) }}
@@ -29,7 +29,7 @@
                     @if(Auth::check() && Auth::id() == $comment->user_id)
                         <div class="comment-actions">
                             <button class="btn btn-primary btn-sm edit-comment" data-comment-id="{{ $comment->id }}">Chỉnh sửa</button>
-                            <button class="btn btn-danger btn-sm delete-comment" data-comment-id="{{ $comment->id }}" >Xóa</button>
+                            <button class="btn btn-danger btn-sm delete-comment" data-comment-id="{{ $comment->id }}" onclick="hideComment({{ $comment->id }})">Xóa</button>
                         </div>
                     @endif
                 </div>
@@ -43,3 +43,6 @@
         {{ $comments->links() }}
     </div>
 </div>
+<script>
+
+</script>

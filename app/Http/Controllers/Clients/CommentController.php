@@ -48,7 +48,7 @@ class CommentController extends Controller
             })
         ]);
     }
-    public function delete($id)
+    public function hide($id)
     {
         $comment = Comment::find($id);
 

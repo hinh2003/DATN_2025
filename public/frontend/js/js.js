@@ -85,10 +85,49 @@ function checkvalidate() {
     return isCheck;
 
 }
-
 function switchServer(serverType) {
     let videoPlayer = document.getElementById('videoPlayer');
     let linkChap = videoPlayer.dataset.linkChap;
     let linkAws = videoPlayer.dataset.linkAws;
     videoPlayer.src = serverType === 'link_chap' ? linkChap : linkAws;
+}
+function hideComment(id) {
+    Swal.fire({
+        title: "Bạn có chắc chắn?",
+        text: "Bình luận sẽ bị xóa!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Vâng, xóa đi!",
+        cancelButtonText: "Hủy"
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                url: `/comments/${id}/hide`,
+                type: 'PATCH',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+                success: function(response) {
+                    $('#comment-' + id).fadeOut(300, function () {
+                        $(this).remove();
+                    });
+
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Thành công!',
+                        text: response.message,
+                        timer: 1500,
+                        showConfirmButton: false
+                    });
+                },
+                error: function(xhr) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Lỗi!',
+                        text: xhr.responseJSON?.message || "Có lỗi xảy ra."
+                    });
+                }
+            });
+        }
+    });
 }

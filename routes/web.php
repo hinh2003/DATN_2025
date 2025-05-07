@@ -106,4 +106,4 @@ Route::get('/movies/{movie}/comments/list', [CommentController::class, 'list']);
 
 //comment
 Route::post('/movies/{movie}/comments/update', [CommentController::class, 'update'])->name('comments.update');
-Route::get('/movies/{movie}/comments/delete', [CommentController::class, 'delete'])->name('comments.delete');
+Route::patch('/comments/{id}/hide', [CommentController::class, 'hide'])->name('comments.hide');
