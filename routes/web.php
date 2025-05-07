@@ -102,8 +102,9 @@ Route::get('/search', [SearchController::class, 'search'])->name('search');
 //thong tin nguoi dung
 Route::get('/profile',[UserController::class,'index'])->name('profile');
 Route::post('/movies/{movie}/comments', [CommentController::class, 'store'])->name('comments.store');
-Route::get('/movies/{movie}/comments/list', [CommentController::class, 'list']);
 
 //comment
-Route::post('/movies/{movie}/comments/update', [CommentController::class, 'update'])->name('comments.update');
+Route::put('/comments/{comment}/update', [CommentController::class, 'update']);
 Route::patch('/comments/{id}/hide', [CommentController::class, 'hide'])->name('comments.hide');
+Route::post('/movies/{movie}/comments/add', [CommentController::class, 'store'])->name('comments.store');
+Route::get('/movies/{movie}/comments', [CommentController::class, 'getComments']);

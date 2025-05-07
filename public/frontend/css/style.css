@@ -1170,4 +1170,40 @@ input[type="submit"]
     color: #444;
     margin-left: 50px;
 }
+.comment-actions {
+    margin-top: 10px;
+    display: flex;
+    gap: 8px; /* khoảng cách giữa các nút */
+}
+
+.comment-actions .btn {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.comment-actions .btn-sm {
+    font-size: 13px;
+}
+
+.comment-actions .btn-primary {
+    background-color: #007bff;
+    color: white;
+}
+
+.comment-actions .btn-primary:hover {
+    background-color: #0056b3;
+}
+
+.comment-actions .btn-danger {
+    background-color: #dc3545;
+    color: white;
+}
+
+.comment-actions .btn-danger:hover {
+    background-color: #a71d2a;
+}
 

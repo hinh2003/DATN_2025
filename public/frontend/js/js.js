@@ -100,6 +100,8 @@ function hideComment(id) {
         confirmButtonText: "Vâng, xóa đi!",
         cancelButtonText: "Hủy"
     }).then((result) => {
+        const movieId = document.getElementById('commentsList').dataset.movieId;
+
         if (result.isConfirmed) {
             $.ajax({
                 url: `/comments/${id}/hide`,
@@ -108,9 +110,7 @@ function hideComment(id) {
                     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
                 },
                 success: function(response) {
-                    $('#comment-' + id).fadeOut(300, function () {
-                        $(this).remove();
-                    });
+                  loadComments(movieId);
 
                     Swal.fire({
                         icon: 'success',
@@ -131,3 +131,142 @@ function hideComment(id) {
         }
     });
 }
+
+function addComment(id, event) {
+    event.preventDefault();
+
+    const content = document.getElementById('commentContent').value;
+    const movieId = document.getElementById('commentsList').dataset.movieId; // Lấy ID phim từ data attribute
+
+    if (!content.trim()) {
+        Swal.fire({
+            icon: 'warning',
+            title: 'Chú ý!',
+            text: 'Vui lòng nhập nội dung bình luận.'
+        });
+        return;
+    }
+
+    $.ajax({
+        url: `/movies/${movieId}/comments/add`,
+        type: 'POST',
+        data: { content: content },
+        headers: {
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        },
+        success: function(response) {
+            Swal.fire({
+                icon: 'success',
+                title: 'Thành công!',
+                text: response.message,
+                timer: 1500,
+                showConfirmButton: false
+            });
+
+            document.getElementById('commentContent').value = '';
+            loadComments(movieId);
+
+        },
+        error: function(xhr) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Lỗi!',
+                text: xhr.responseJSON?.message || "Có lỗi xảy ra."
+            });
+        }
+    });
+}
+function loadComments(movieId) {
+    $.ajax({
+        url: `/movies/${movieId}/comments`,
+        type: 'GET',
+        success: function(response) {
+            if (response.success) {
+                $('#commentsList').html('');
+
+                response.comments.forEach(comment => {
+                    let html = `
+                        <div class="comment-card" id="comment-${comment.id}">
+                            <div class="comment-header">
+                                <div class="avatar">
+                                    ${comment.user.slice(0, 2).toUpperCase()}
+                                </div>
+                                <div class="comment-info">
+                                    <span class="username">${comment.user}</span>
+                                    <span class="timestamp">${comment.created_at}</span>
+                                </div>
+                            </div>
+                                <div class="comment-content" id="content-${comment.id}">
+                                ${comment.content}
+                            </div>`;
+                    if (response.current_user_id === comment.user_id) {
+                        html += `
+                            <div class="comment-actions" id="actions-${comment.id}">
+                                <button class="btn btn-primary btn-sm edit-comment" onclick="editComment(${comment.id}, '${comment.content}')">Chỉnh sửa</button>
+                                <button class="btn btn-danger btn-sm delete-comment" data-comment-id="${comment.id}" onclick="hideComment(${comment.id})">Xóa</button>
+                            </div>`;
+                    }
+                    html += `</div>`;
+                    $('#commentsList').append(html);
+                });
+            }
+        },
+        error: function() {
+            Swal.fire({
+                icon: 'error',
+                title: 'Lỗi!',
+                text: "Không thể tải bình luận."
+            });
+        }
+    });
+}
+function editComment(commentId, oldContent) {
+    // Hiển thị textarea thay vì nội dung
+    const contentDiv = document.getElementById(`content-${commentId}`);
+    contentDiv.innerHTML = `
+        <textarea id="edit-content-${commentId}" class="form-control">${oldContent}</textarea>
+    `;
+
+    // Đổi nút "Chỉnh sửa" thành "Apply"
+    const actionsDiv = document.getElementById(`actions-${commentId}`);
+    actionsDiv.innerHTML = `
+        <button class="btn btn-success btn-sm" onclick="applyEdit(${commentId})">Apply</button>
+        <button class="btn btn-secondary btn-sm" onclick="cancelEdit(${commentId}, \`${oldContent.replace(/`/g, '\\`')}\`)">Cancel</button>
+    `;
+}
+function applyEdit(commentId) {
+    const newContent = document.getElementById(`edit-content-${commentId}`).value;
+
+    $.ajax({
+        url: `/comments/${commentId}/update`, // Route update
+        type: 'PUT',
+        data: {
+            content: newContent,
+            _token: $('meta[name="csrf-token"]').attr('content') // nếu dùng Laravel CSRF
+        },
+        success: function(response) {
+            if (response.success) {
+                // Cập nhật lại nội dung hiển thị
+                document.getElementById(`content-${commentId}`).innerText = response.updated.content;
+
+                // Trả lại nút ban đầu
+                document.getElementById(`actions-${commentId}`).innerHTML = `
+                    <button class="btn btn-primary btn-sm edit-comment" onclick="editComment(${commentId}, '${response.updated.content}')">Chỉnh sửa</button>
+                    <button class="btn btn-danger btn-sm delete-comment" onclick="hideComment(${commentId})">Xóa</button>
+                `;
+            }
+        },
+        error: function() {
+            alert('Có lỗi xảy ra khi cập nhật bình luận.');
+        }
+    });
+}
+function cancelEdit(commentId, oldContent) {
+    document.getElementById(`content-${commentId}`).innerText = oldContent;
+    document.getElementById(`actions-${commentId}`).innerHTML = `
+        <button class="btn btn-primary btn-sm edit-comment" onclick="editComment(${commentId}, '${oldContent}')">Chỉnh sửa</button>
+        <button class="btn btn-danger btn-sm delete-comment" onclick="hideComment(${commentId})">Xóa</button>
+    `;
+}
+
+

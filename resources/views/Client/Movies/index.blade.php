@@ -33,7 +33,27 @@
             </div>
         </div>
     </div>
-    @include('Client.Comments.comment', ['comments' => $comments])
+    <div class="comment-section">
+        <h3>Bình luận</h3>
+
+        @if(Auth::check())
+            <form id="commentForm">
+                @csrf
+                <textarea name="content" id="commentContent" class="form-control" placeholder="Nhập bình luận..." required></textarea>
+                <button type="submit" class="btn btn-success mt-2" onclick="addComment({{ $movie->id }}, event)">Gửi</button>
+            </form>
+        @else
+            <p><a href="{{ route('login') }}">Đăng nhập</a> để bình luận.</p>
+        @endif
+
+        <div id="commentsList" data-movie-id="{{ $movie->id }}">
+            @include('Client.Comments.comment', ['comments' => $comments])
+        </div>
+
+        <div class="mt-4 d-flex justify-content-center">
+            {{ $comments->links() }}
+        </div>
+    </div>
 </div>
 
 

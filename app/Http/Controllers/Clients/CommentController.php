@@ -33,21 +33,25 @@ class CommentController extends Controller
             ]
         ]);
     }
-    public function list(Movie $movie)
+    public function getComments(Movie $movie)
     {
-        $comments = $movie->comments()->with('user')->latest()->get();
+        $comments = $movie->comments()->with('user')->where("status",1)->latest()->paginate(5);
 
         return response()->json([
             'success' => true,
+            'current_user_id' => Auth::id(), // trả về user hiện tại
             'comments' => $comments->map(function ($comment) {
                 return [
+                    'id' => $comment->id,
                     'user' => $comment->user->name,
+                    'user_id' => $comment->user->id,
                     'content' => $comment->content,
                     'created_at' => $comment->created_at->diffForHumans(),
                 ];
             })
         ]);
     }
+
     public function hide($id)
     {
         $comment = Comment::find($id);
@@ -61,6 +65,25 @@ class CommentController extends Controller
             return response()->json(['message' => 'Không tìm thấy bình luận.'], 404);
         }
     }
+    public function update(Request $request, Comment $comment)
+    {
+        $request->validate([
+            'content' => 'required|string|max:500',
+        ]);
 
+        if (Auth::id() !== $comment->user_id) {
+            return response()->json(['success' => false, 'message' => 'Unauthorized'], 403);
+        }
+
+        $comment->content = $request->content;
+        $comment->save();
+
+        return response()->json([
+            'success' => true,
+            'updated' => [
+                'content' => $comment->content
+            ]
+        ]);
+    }
 
 }
