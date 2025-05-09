@@ -269,4 +269,30 @@ function cancelEdit(commentId, oldContent) {
     `;
 }
 
+function uploadAvtar()
+{
+    $('#avatarInput').on('change', function () {
+        let formData = new FormData();
+        formData.append('avatar', this.files[0]);
 
+        $.ajax({
+            url: '/user/upload-avatar',
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (response) {
+                if (response.success) {
+                    $('#avatarPreview').attr('src', response.avatar);
+                    alert("Cập nhật ảnh đại diện thành công!");
+                }
+            },
+            error: function (xhr) {
+                alert("Lỗi khi upload ảnh!");
+            }
+        });
+    });
+}

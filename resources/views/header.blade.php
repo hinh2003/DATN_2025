@@ -44,13 +44,30 @@
 
                         </div>
                     </li>
-                    @if(session('username'))
-                        <li class="nav-item "><a href="{{route('profile')}}" class="nav-link">{{session('username')}}</a></li>
-                        <li class="nav-item "><a href="{{route('logout')}}" class="nav-link">Đăng Xuất</a></li>
+{{--                    <li class="nav-item dropdown">--}}
+{{--                        <a class="nav-link" href="#" id="notificationDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">--}}
+{{--                            <i class="fa fa-bell"></i>--}}
+{{--                            <span class="badge badge-danger" id="notificationCount">3</span>--}}
+{{--                        </a>--}}
+{{--                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="notificationDropdown" style="min-width: 300px; max-height: 300px; overflow-y: auto;" id="notificationList">--}}
+{{--                            --}}{{-- Danh sách thông báo sẽ hiển thị ở đây bằng JS --}}
+{{--                            <a class="dropdown-item text-muted">Không có thông báo mới</a>--}}
+{{--                        </div>--}}
+{{--                    </li>--}}
+
+                @if(session('username'))
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fa fa-user"></i> {{ session('username') }}
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+                                <a class="dropdown-item" href="{{ route('profile') }}">Trang cá nhân</a>
+                                <a class="dropdown-item" href="{{ route('logout') }}">Đăng xuất</a>
+                            </div>
+                        </li>
                     @else
                         <li class="nav-item "><a href="{{ route('login') }}" class="nav-link">Đăng Nhập</a></li>
                         <li class="nav-item "><a href="{{ route('register') }}" class="nav-link">Đăng Ký</a></li>
-
                     @endif
 
                 </ul>

@@ -27,12 +27,13 @@
                 <div class="user-info">
                     <p>Tên: {{ Auth::user()->name }}</p>
                     <p>Email: {{ Auth::user()->email }}</p>
-                    @if(Auth::user()->role->name_role == 'Admin')
-                        <a href="{{route('main')}}"><p>Role: {{ Auth::user()->role->name_role}}</p></a>
-                    @else
-                        <p>Role: {{ Auth::user()->role->name_role}}</p>
-                    @endif
+                    <p>Role: {{ Auth::user()->role->name_role }}</p>
+
+                    <img id="avatarPreview" src="{{ asset(Auth::user()->avatar ?? 'default.jpg') }}" width="100" style="border-radius: 50%; margin-top: 10px;" alt="Avatar">
+                        <input type="file" name="avatar" id="avatarInput" style="display: none;" onclick="uploadAvtar()">
+                        <label for="avatarInput" class="btn btn-warning btn-sm mt-2">Chọn ảnh</label>
                 </div>
+
             </div>
         </div>
     </div>

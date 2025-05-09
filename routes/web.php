@@ -101,8 +101,8 @@ Route::get('/search', [SearchController::class, 'search'])->name('search');
 
 //thong tin nguoi dung
 Route::get('/profile',[UserController::class,'index'])->name('profile');
+Route::post('/user/upload-avatar', [UserController::class, 'uploadAvatar'])->name('user.upload.avatar');
 Route::post('/movies/{movie}/comments', [CommentController::class, 'store'])->name('comments.store');
-
 //comment
 Route::put('/comments/{comment}/update', [CommentController::class, 'update']);
 Route::patch('/comments/{id}/hide', [CommentController::class, 'hide'])->name('comments.hide');
