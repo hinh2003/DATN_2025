@@ -54,8 +54,11 @@ class HomeController extends Controller
 
         $movies = Movie::where('country_id', $id)
             ->leftJoin('chap_movies', 'movies.id', '=', 'chap_movies.movie_id')
-            ->select('movies.*', \DB::raw('COALESCE(MAX(chap_movies.updated_at), movies.updated_at) as latest_update'))
-            ->groupBy('movies.id')
+            ->select( 'movies.id',
+                'movies.name_movie',
+                'movies.pic',
+                'movies.updated_at', \DB::raw('COALESCE(MAX(chap_movies.updated_at), movies.updated_at) as latest_update'))
+            ->groupBy('movies.id', 'movies.name_movie', 'movies.updated_at','movies.pic')
             ->orderByDesc('latest_update')
             ->get();
         return view('pages.listshow', compact('movies', 'Categorys', 'status','country'));
@@ -70,8 +73,11 @@ class HomeController extends Controller
             $query->where('category_id', $id);
         })
             ->leftJoin('chap_movies', 'movies.id', '=', 'chap_movies.movie_id')
-            ->select('movies.*', \DB::raw('COALESCE(MAX(chap_movies.created_at), movies.updated_at) as latest_update'))
-            ->groupBy('movies.id')
+            ->select('movies.id',
+                'movies.name_movie',
+                'movies.pic',
+                'movies.updated_at', \DB::raw('COALESCE(MAX(chap_movies.created_at), movies.updated_at) as latest_update'))
+            ->groupBy('movies.id', 'movies.name_movie', 'movies.updated_at','movies.pic')
             ->orderByDesc('latest_update')
             ->get();
 
@@ -86,8 +92,11 @@ class HomeController extends Controller
 
         $movies = Movie::where('status_id', $id)
             ->leftJoin('chap_movies', 'movies.id', '=', 'chap_movies.movie_id')
-            ->select('movies.*', \DB::raw('COALESCE(MAX(chap_movies.updated_at), movies.updated_at) as latest_update'))
-            ->groupBy('movies.id')
+            ->select('movies.id',
+                'movies.name_movie',
+                'movies.pic',
+                'movies.updated_at', \DB::raw('COALESCE(MAX(chap_movies.updated_at), movies.updated_at) as latest_update'))
+            ->groupBy('movies.id', 'movies.name_movie', 'movies.updated_at','movies.pic')
             ->orderByDesc('latest_update')
             ->get();
 
@@ -100,8 +109,11 @@ class HomeController extends Controller
 
         $movies = Movie::where('country_id', $id)
             ->leftJoin('chap_movies', 'movies.id', '=', 'chap_movies.movie_id')
-            ->select('movies.*', \DB::raw('COALESCE(MAX(chap_movies.updated_at), movies.updated_at) as latest_update'))
-            ->groupBy('movies.id')
+            ->select('movies.id',
+                'movies.name_movie',
+                'movies.pic',
+                'movies.updated_at', \DB::raw('COALESCE(MAX(chap_movies.updated_at), movies.updated_at) as latest_update'))
+            ->groupBy('movies.id', 'movies.name_movie', 'movies.updated_at','movies.pic')
             ->orderByDesc('latest_update')
             ->get();
 

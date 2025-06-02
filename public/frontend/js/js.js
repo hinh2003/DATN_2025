@@ -185,20 +185,33 @@ function loadComments(movieId) {
                 $('#commentsList').html('');
 
                 response.comments.forEach(comment => {
+                    let avatarHtml = '';
+
+                    if (comment.avatar) {
+                        avatarHtml = `
+                            <img src="${comment.avatar}" alt="${comment.user}" class="avatar-img">
+                        `;
+                    } else {
+                        avatarHtml = `
+                            ${comment.user.slice(0, 2).toUpperCase()}
+                        `;
+                    }
+
                     let html = `
                         <div class="comment-card" id="comment-${comment.id}">
                             <div class="comment-header">
                                 <div class="avatar">
-                                    ${comment.user.slice(0, 2).toUpperCase()}
+                                    ${avatarHtml}
                                 </div>
                                 <div class="comment-info">
                                     <span class="username">${comment.user}</span>
                                     <span class="timestamp">${comment.created_at}</span>
                                 </div>
                             </div>
-                                <div class="comment-content" id="content-${comment.id}">
+                            <div class="comment-content" id="content-${comment.id}">
                                 ${comment.content}
                             </div>`;
+
                     if (response.current_user_id === comment.user_id) {
                         html += `
                             <div class="comment-actions" id="actions-${comment.id}">
@@ -206,6 +219,7 @@ function loadComments(movieId) {
                                 <button class="btn btn-danger btn-sm delete-comment" data-comment-id="${comment.id}" onclick="hideComment(${comment.id})">Xóa</button>
                             </div>`;
                     }
+
                     html += `</div>`;
                     $('#commentsList').append(html);
                 });
@@ -220,6 +234,8 @@ function loadComments(movieId) {
         }
     });
 }
+
+
 function editComment(commentId, oldContent) {
     // Hiển thị textarea thay vì nội dung
     const contentDiv = document.getElementById(`content-${commentId}`);

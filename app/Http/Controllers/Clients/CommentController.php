@@ -45,6 +45,7 @@ class CommentController extends Controller
                     'id' => $comment->id,
                     'user' => $comment->user->name,
                     'user_id' => $comment->user->id,
+                    'avatar' => $comment->user->avatar ? asset($comment->user->avatar) : null,
                     'content' => $comment->content,
                     'created_at' => $comment->created_at->diffForHumans(),
                 ];
