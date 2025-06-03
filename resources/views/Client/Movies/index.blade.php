@@ -8,7 +8,7 @@
         <div class="product-info">
             <h3>{{$movie->name_movie}}</h3>
             <p>Số Tập :<span > {{$movie->episodes}}</span></p>
-            <p>Năm: <span >{{$movie->created_at}}</span></p>
+            <p>Năm: <span>{{ $movie->created_at->format('Y') }}</span></p>
             <p>Trạng thái: <a style="text-decoration: none ;" href="{{ route('listByStatus', $movie->status->id) }}" ><span >{{$movie->status->name_satus}}</span></a></p>
             <p>Quốc gia: <a style="text-decoration: none ;" href="{{ route('listByCountry', $movie->country->id) }}" ><span >{{$movie->country->name_country}}</span></a></p>
             <p>Thể loại:
