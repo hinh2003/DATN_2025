@@ -18,7 +18,7 @@ use App\Http\Controllers\LivemoviesController ;
 use App\Http\Controllers\Clients\ChapMovieController ;
 use App\Http\Controllers\Clients\UserController;
 use App\Http\Controllers\Admin\ChapMoviesController ;
-
+use App\Http\Controllers\Admin\CategoriesController;
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route:: prefix('admin')->group(function () {
     Route::get('/',[SessionController::class,'index']);
@@ -35,6 +35,10 @@ Route:: prefix('admin')->group(function () {
 
     Route::get('movies/category', [MoviesController::class, 'addCategory'])->name('movies.category');
     Route::post('movies/category/store', [MoviesController::class, 'handCategory'])->name('movies.category.store');
+    Route::get("category",[CategoriesController::class,'index'])->name('category.index');
+    Route::delete('category/{id}', [CategoriesController::class, 'destroy'])->name('category.destroy');
+    Route::put('category/{id}', [CategoriesController::class, 'update'])->name('category.update');
+
 
     Route::get('movies/update/{id}', [MoviesController::class, 'updateMovie'])->name('movies.edit');
     Route::post('movies/update/{id}', [MoviesController::class, 'handUpdateMovie'])->name('movies.update');

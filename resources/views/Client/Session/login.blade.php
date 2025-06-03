@@ -15,7 +15,7 @@
                 <button type="submit"name="dangnhap" id="dangnhap">Sign In</button>
                 <p id="resultketqua"></p>
                 @include('Error.login')
-                <p class="message">Not registered? <a href="">Create an account</a>
+                <p class="message">Not registered? <a href="/register">Create an account</a>
                 </p>
                 @csrf
             </form>
