@@ -2,7 +2,6 @@
 @include('header')
 <body>
 @include('Client/Banner/index')
-
 <div class="menu-conten" >
     <div class="main-container-title">
         <div class="title">
@@ -45,6 +44,5 @@
     </div>
 </div>
 </div>
-
 @include('footer')
 </body>

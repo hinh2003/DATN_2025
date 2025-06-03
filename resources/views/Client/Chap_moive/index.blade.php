@@ -6,16 +6,19 @@
         <button onclick="switchServer('link_chap')" class="btn btn-primary">Server Chính</button>
         <button onclick="switchServer('link_aws')" class="btn btn-secondary">Server Dự Phòng</button>
     </div>
-    <div class="d-flex justify-content-center">
-        <div class="w-75">
-            <iframe id="videoPlayer" width="100%" height="500px"
-                    src="{{ $selected_chapter->link_chap ?? $default_chapter->link_chap }}"
-                    data-link-chap="{{ $selected_chapter->link_chap ?? $default_chapter->link_chap }}"
-                    data-link-aws="{{ $selected_chapter->aws_link ?? $default_chapter->aws_link }}"
-                    class="rounded shadow" allowfullscreen>
-            </iframe>
+    @if ($default_chapter && $default_chapter->link_chap)
+        <div class="d-flex justify-content-center">
+            <div class="w-75">
+                <iframe id="videoPlayer" width="100%" height="500px"
+                        src="{{ $selected_chapter->link_chap ?? $default_chapter->link_chap }}"
+                        data-link-chap="{{ $selected_chapter->link_chap ?? $default_chapter->link_chap }}"
+                        data-link-aws="{{ $selected_chapter->aws_link ?? $default_chapter->aws_link }}"
+                        class="rounded shadow" allowfullscreen>
+                </iframe>
+            </div>
         </div>
-    </div>
+    @endif
+
     <div class="mt-4">
         <h3 class="text-warning text-center">Số Tập</h3>
         <div class="d-flex flex-wrap justify-content-center gap-2">
