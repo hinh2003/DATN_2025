@@ -18,7 +18,7 @@
                     <a class="nav-link" href="{{route('banners.index')}}">Quản lý banner</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/admin/action/movies/category">Thêm thể loại</a>
+                    <a class="nav-link" href="/admin/action/category">Thể loại</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/admin/action/account">Tài Khoản</a>
